@@ -5,12 +5,12 @@ from .sunat_request import sunat_request_ruc
 from datetime import datetime
 
 COLOR_STATE = {
-    "active": "#239B56",
-    "inactive": "#C0392B"
+    "active": "done",
+    "inactive": "blocked"
 }
 COLOR_CONDITION = {
-    "active": "#239B56",
-    "inactive": "#C0392B"
+    "active": "done",
+    "inactive": "blocked"
 }
 
 
@@ -19,13 +19,16 @@ class ResPartner(models.Model):
 
     commercial_name = fields.Char(string="Commercial Name")
 
-    state = fields.Char(string='State')
+    state = fields.Char(string="State")
 
-    state_color = fields.Char(string="State Color")
+    state_color = fields.Selection(selection=[("normal", "Not Consulted"), ("done", "Active"), ("blocked", "Inactive")],
+                                   string="State Color", default="normal")
 
-    condition = fields.Char(string='Condition')
+    condition = fields.Char(string="Condition")
 
-    condition_color = fields.Char(string="Condition Color")
+    condition_color = fields.Selection(
+        selection=[("normal", "Not Consulted"), ("done", "Active"), ("blocked", "Inactive")],
+        string="Condition Color", default="normal")
 
     date_enrollment = fields.Date(string="Enrollment Date")
 
@@ -40,17 +43,22 @@ class ResPartner(models.Model):
                 return False
             return True
 
+    def get_sunat_information(self, vat):
+        return sunat_request_ruc(vat)
+
     @api.onchange("vat", "l10n_latam_identification_type_id")
     def _onchange_sunat_validation(self):
         if self.l10n_latam_identification_type_id.id and self.vat:
             if self.validation_sunat_contact():
-                data = sunat_request_ruc(self.vat)
+                data = self.get_sunat_information(self.vat)
                 if not data["success"]:
                     self.env.user.notify_danger(message=data["error"])
                     return
                 data = data["value"]
-                self.assign_values_from_sunat(data)
+                vals = self.assign_values_from_sunat(data)
+                self.update(vals)
 
+    @api.model
     def assign_values_from_sunat(self, data):
         vals = self.get_match_address(data["domicilio_fiscal"])
         if data["razon_social"]:
@@ -79,15 +87,16 @@ class ResPartner(models.Model):
             else:
                 vals["condition_color"] = COLOR_CONDITION["inactive"]
         if data["fecha_inscripcion"]:
-            vals["date_enrollment"] = datetime.strptime(data["fecha_inscripcion"], '%d/%m/%Y')
-        self.update(vals)
+            vals["date_enrollment"] = datetime.strptime(data["fecha_inscripcion"], "%d/%m/%Y")
+        return vals
 
+    @api.model
     def get_match_address(self, address):
-        provinces = self.env['res.city'].search(
-            [('name_unacent', '=', address["provincia"]), ('state_id.name_unacent', '=', address["departamento"])],
+        provinces = self.env["res.city"].search(
+            [("name_unacent", "=", address["provincia"]), ("state_id.name_unacent", "=", address["departamento"])],
             limit=1)
-        l10n_pe_district = self.env['l10n_pe.res.city.district'].search(
-            [('name_unacent', '=', address["distrito"]), ('city_id', 'in', provinces.ids)], limit=1)
+        l10n_pe_district = self.env["l10n_pe.res.city.district"].search(
+            [("name_unacent", "=", address["distrito"]), ("city_id", "in", provinces.ids)], limit=1)
         vals = {
             "country_id": False,
             "state_id": False,
@@ -95,41 +104,41 @@ class ResPartner(models.Model):
             "l10n_pe_district": False,
         }
         if l10n_pe_district.id:
-            vals['l10n_pe_district'] = l10n_pe_district.id
-            vals['city_id'] = l10n_pe_district.city_id.id
-            vals['state_id'] = l10n_pe_district.city_id.state_id.id
-            vals['country_id'] = l10n_pe_district.city_id.state_id.country_id.id
+            vals["l10n_pe_district"] = l10n_pe_district.id
+            vals["city_id"] = l10n_pe_district.city_id.id
+            vals["state_id"] = l10n_pe_district.city_id.state_id.id
+            vals["country_id"] = l10n_pe_district.city_id.state_id.country_id.id
         return vals
 
-    @api.onchange('country_id')
+    @api.onchange("country_id")
     def _onchange_pg_country_id(self):
         if self.city_id:
             if not self.state_id:
-                return {'domain': {'city_id': []}}
+                return {"domain": {"city_id": []}}
         else:
-            return {'domain': {'l10n_pe_district': [('city_id', '=', self.city_id.id)]}}
+            return {"domain": {"l10n_pe_district": [("city_id", "=", self.city_id.id)]}}
 
-    @api.onchange('state_id')
+    @api.onchange("state_id")
     def _onchange_state_id(self):
         if self.state_id.id:
             if not self.country_id:
                 self.country_id = self.state_id.country_id.id
-            return {'domain': {'city_id': [('state_id', '=', self.state_id.id)]}}
+            return {"domain": {"city_id": [("state_id", "=", self.state_id.id)]}}
         else:
-            return {'domain': {'city_id': []}}
+            return {"domain": {"city_id": []}}
 
-    @api.onchange('city_id')
+    @api.onchange("city_id")
     def _onchange_city_id(self):
         if self.city_id:
             self.city = self.city_id.name
             self.state_id = self.city_id.state_id.id
-            return {'domain': {'l10n_pe_district': [('city_id', '=', self.city_id.id)]}}
+            return {"domain": {"l10n_pe_district": [("city_id", "=", self.city_id.id)]}}
         elif self._origin:
             self.city = False
             self.state_id = False
-            return {'domain': {'l10n_pe_district': []}}
+            return {"domain": {"l10n_pe_district": []}}
 
-    @api.onchange('l10n_pe_district')
+    @api.onchange("l10n_pe_district")
     def _onchange_pg_l10n_pe_district(self):
         if self.l10n_pe_district:
             self.city_id = self.l10n_pe_district.city_id.id

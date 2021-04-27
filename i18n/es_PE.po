@@ -1,0 +1,138 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_pe_validate_contact
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-04-27 20:47+0000\n"
+"PO-Revision-Date: 2021-04-27 20:47+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_pe_validate_contact
+#: model:ir.model.fields.selection,name:l10n_pe_validate_contact.selection__res_partner__condition_color__done
+#: model:ir.model.fields.selection,name:l10n_pe_validate_contact.selection__res_partner__state_color__done
+msgid "Active"
+msgstr "Activo"
+
+#. module: l10n_pe_validate_contact
+#: model:ir.model,name:l10n_pe_validate_contact.model_res_city
+msgid "City"
+msgstr "Ciudad"
+
+#. module: l10n_pe_validate_contact
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_partner__commercial_name
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_users__commercial_name
+msgid "Commercial Name"
+msgstr "Nombre Comercial"
+
+#. module: l10n_pe_validate_contact
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_partner__condition
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_users__condition
+msgid "Condition"
+msgstr "Condicion"
+
+#. module: l10n_pe_validate_contact
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_partner__condition_color
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_users__condition_color
+msgid "Condition Color"
+msgstr "Condicion Color"
+
+#. module: l10n_pe_validate_contact
+#: model:ir.model,name:l10n_pe_validate_contact.model_res_partner
+msgid "Contact"
+msgstr "Contacto"
+
+#. module: l10n_pe_validate_contact
+#: model:ir.model,name:l10n_pe_validate_contact.model_res_country_state
+msgid "Country state"
+msgstr "Provincia"
+
+#. module: l10n_pe_validate_contact
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_l10n_pe_res_city_district__display_name
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_city__display_name
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_country_state__display_name
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Nombre Mostrado"
+
+#. module: l10n_pe_validate_contact
+#: model:ir.model,name:l10n_pe_validate_contact.model_l10n_pe_res_city_district
+msgid "District"
+msgstr "Distrito"
+
+#. module: l10n_pe_validate_contact
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_partner__economic_assets
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_users__economic_assets
+msgid "Economic Assets"
+msgstr "Actividades Economicas"
+
+#. module: l10n_pe_validate_contact
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_partner__date_enrollment
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_users__date_enrollment
+msgid "Enrollment Date"
+msgstr "Fecha de Inscripcion"
+
+#. module: l10n_pe_validate_contact
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_l10n_pe_res_city_district__id
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_city__id
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_country_state__id
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_partner__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_pe_validate_contact
+#: model:ir.model.fields.selection,name:l10n_pe_validate_contact.selection__res_partner__condition_color__blocked
+#: model:ir.model.fields.selection,name:l10n_pe_validate_contact.selection__res_partner__state_color__blocked
+msgid "Inactive"
+msgstr "Inactivo"
+
+#. module: l10n_pe_validate_contact
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_l10n_pe_res_city_district____last_update
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_city____last_update
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_country_state____last_update
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_partner____last_update
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: l10n_pe_validate_contact
+#: model:ir.model.fields.selection,name:l10n_pe_validate_contact.selection__res_partner__condition_color__normal
+#: model:ir.model.fields.selection,name:l10n_pe_validate_contact.selection__res_partner__state_color__normal
+msgid "Not Consulted"
+msgstr "No consultado"
+
+#. module: l10n_pe_validate_contact
+#: code:addons/l10n_pe_validate_contact/models/res_partner.py:0
+#, python-format
+msgid "Please verify the vat number"
+msgstr "Por favor verifica el numero de RUC"
+
+#. module: l10n_pe_validate_contact
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_partner__state
+msgid "State"
+msgstr "Estado"
+
+#. module: l10n_pe_validate_contact
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_partner__state_color
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_users__state_color
+msgid "State Color"
+msgstr "Estado Color"
+
+#. module: l10n_pe_validate_contact
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_partner__type_of_taxpayer
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_users__type_of_taxpayer
+msgid "Type Of Taxpayer"
+msgstr "Tipo Contribuyente"
+
+#. module: l10n_pe_validate_contact
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_l10n_pe_res_city_district__name_unacent
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_city__name_unacent
+#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_country_state__name_unacent
+msgid "Unacent Name"
+msgstr "Nombre Sin Acento"
