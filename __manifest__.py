@@ -10,7 +10,7 @@
     "contributors": [
         "Kelvin Meza <kmeza@pragmatic.com.pe>",
     ],
-    "depends": ["l10n_pe", "web_notify"],
+    "depends": ["l10n_pe"],
     "data": [
         "views/res_partner.xml",
     ],

@@ -143,3 +143,36 @@ class ResPartner(models.Model):
         if self.l10n_pe_district:
             self.city_id = self.l10n_pe_district.city_id.id
             self.zip = self.l10n_pe_district.code or ""
+
+
+import json
+
+
+class ResPartner(models.Model):
+    _inherit = "res.partner"
+
+    json_update_from_sunat = fields.Char(string="Json For Update Value from Sunat",
+                                         compute="_compute_json_update_from_sunat")
+
+    @api.model
+    def js_update_form(self, required_fields):
+        data = self.get_sunat_information(required_fields["vat"])
+        if not data["success"]:
+            return {"success": False, "error": data["error"]}
+        data = data["value"]
+        vals = self.assign_values_from_sunat(data)
+        return {"changes": vals, "success": True}
+
+    @api.depends("vat")
+    def _compute_json_update_from_sunat(self):
+        for partner in self:
+            json_obj = {
+                "di_name": "Update",
+                "di_icon": "fa-refresh",
+                "di_action_name": "Confirm",
+                "di_message": "Are you sure to update?",
+                "di_method": "js_update_form",
+                "di_required_fields": {"vat": partner.vat},
+                "di_disable": True
+            }
+            partner.json_update_from_sunat = json.dumps(json_obj)
