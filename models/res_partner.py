@@ -39,7 +39,7 @@ class ResPartner(models.Model):
     def validation_sunat_contact(self):
         if self.l10n_latam_identification_type_id.l10n_pe_vat_code == "6":
             if len(self.vat) != 11:
-                self.env.user.notify_danger(message=_("Please verify the vat number"))
+                raise ValidationError(_("Please verify the vat number"))
                 return False
             return True
 
@@ -52,8 +52,7 @@ class ResPartner(models.Model):
             if self.validation_sunat_contact():
                 data = self.get_sunat_information(self.vat)
                 if not data["success"]:
-                    self.env.user.notify_danger(message=data["error"])
-                    return
+                    raise ValidationError(data["error"])
                 data = data["value"]
                 vals = self.assign_values_from_sunat(data)
                 self.update(vals)
