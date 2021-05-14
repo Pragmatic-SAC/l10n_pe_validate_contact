@@ -52,8 +52,7 @@ class ResPartner(models.Model):
             if self.validation_sunat_contact():
                 data = self.get_sunat_information(self.vat)
                 if not data["success"]:
-                    raise ValidationError(["error"])
-                    return
+                    raise ValidationError(data["error"])
                 data = data["value"]
                 vals = self.assign_values_from_sunat(data)
                 self.update(vals)
