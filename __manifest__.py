@@ -13,6 +13,7 @@
     "depends": ["l10n_pe"],
     "data": [
         "views/res_partner.xml",
+        "views/res_company.xml",
     ],
     # Odoo Store Specific
     "images": [
