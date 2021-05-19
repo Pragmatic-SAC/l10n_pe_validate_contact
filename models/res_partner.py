@@ -36,7 +36,7 @@ class ResPartner(models.Model):
     # economic_assets = fields.Text(string="Economic Assets")
 
     def validation_sunat_contact(self):
-        if self.l10n_latam_identification_type_id.l10n_pe_vat_code == "6" and self.country_id.code == "PE":
+        if self.l10n_latam_identification_type_id.l10n_pe_vat_code == "6":
             if len(self.vat) != 11:
                 raise ValidationError(_("Please verify the vat number"))
             return True
