@@ -7,23 +7,23 @@
         <field name="arch" type="xml">
             <xpath expr="//group[1]" position="after">
                 <group name="sunat_information">
-                    <group>
-                        <field name="commercial_name"/>
-                        <field name="date_enrollment"/>
-                        <field name="type_of_taxpayer"/>
-                    </group>
                     <group col="3">
                         <field name="state" style="pointer-events: none; cursor: default;"/>
                         <field name="state_color" widget="state_selection" nolabel="1"
                                style="pointer-events: none; cursor: default;"/>
+                    </group>
+                    <group col="3">
                         <field name="condition" style="pointer-events: none; cursor: default;"/>
                         <field name="condition_color" widget="state_selection" nolabel="1"
                                style="pointer-events: none; cursor: default;"/>
+                        <!--                        <field name="commercial_name"/>-->
+                        <!--                        <field name="date_enrollment"/>-->
+                        <!--                        <field name="type_of_taxpayer"/>-->
                     </group>
                 </group>
-                <group>
-                    <field name="economic_assets"/>
-                </group>
+                <!--                <group>
+                                    <field name="economic_assets"/>
+                                </group>-->
             </xpath>
         </field>
     </record>
