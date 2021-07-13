@@ -2,8 +2,8 @@
 {
     # App information
     "name": "Contactos - Peru",
-    "category": "Contactos",
-    "summary": "App for validation document number in Peru.",
+    "category": "contacts",
+    "summary": "Contactos.",
     "version": "14.0.0",
     "license": "OPL-1",
     "website": "https://www.pragmatic.com.pe/",
