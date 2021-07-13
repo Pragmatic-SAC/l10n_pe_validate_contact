@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 {
     # App information
-    "name": "Localization Validation Contact - Peru",
-    "category": "Localization",
+    "name": "Contactos - Peru",
+    "category": "Contactos",
     "summary": "App for validation document number in Peru.",
     "version": "14.0.0",
     "license": "OPL-1",
