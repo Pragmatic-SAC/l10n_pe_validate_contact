@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 {
     # App information
-    "name": "Contactos - Peru",
+    "name": "Validar RUC/DNI - Peru",
     "category": "contacts",
-    "summary": "Contactos.",
+    "summary": "Valida la informacion de personas y empresas.",
     "version": "14.0.0",
     "license": "OPL-1",
     "website": "https://www.pragmatic.com.pe/",
