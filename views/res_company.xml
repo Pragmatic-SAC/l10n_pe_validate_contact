@@ -11,9 +11,6 @@
                 </group>
                 <group>
                     <group>
-                        <field name="pg_user"/>
-                    </group>
-                    <group>
                         <field name="pg_password"/>
                     </group>
                 </group>

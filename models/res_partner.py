@@ -40,37 +40,56 @@ class ResPartner(models.Model):
             if len(self.vat) != 11:
                 raise ValidationError(_("Please verify the vat number"))
             return True
+        if self.l10n_latam_identification_type_id.l10n_pe_vat_code == "1":
+            if len(self.vat) != 8:
+                raise ValidationError(_("Please verify the vat number"))
+            return True
+        return False
 
-    def get_sunat_information(self, vat):
-        url, user, token = self.env.company.get_values_consultation()
-        data = get_data_ruc(vat, url, user, token)
+    def get_sunat_information(self, type, vat):
+        url, token = self.env.company.get_values_consultation()
+        if type == "6":
+            url = url + '/ruc/' + vat
+        if type == "1":
+            url = url + '/dni/' + vat
+        data = get_data_ruc(url, token)
         return data
 
     @api.onchange("vat", "l10n_latam_identification_type_id")
     def _onchange_sunat_validation(self):
         if self.l10n_latam_identification_type_id.id and self.vat:
             if self.validation_sunat_contact():
-                data = self.get_sunat_information(self.vat)
+                data = self.get_sunat_information(self.l10n_latam_identification_type_id.l10n_pe_vat_code, self.vat)
                 if not data["success"]:
                     return
                     #raise ValidationError(data["error"])
                 data = data["data"]
-                vals = self.assign_values_from_sunat(data)
+                if self.l10n_latam_identification_type_id.l10n_pe_vat_code == "1":
+                    vals = self.assign_values_from_sunat_dni(data)
+                if self.l10n_latam_identification_type_id.l10n_pe_vat_code == "6":
+                    vals = self.assign_values_from_sunat_ruc(data)
                 self.update(vals)
 
     @api.model
-    def assign_values_from_sunat(self, data):
+    def assign_values_from_sunat_dni(self, data):
+        vals = {}
+        if data["nombre_completo"]:
+            vals["name"] = data["nombre_completo"]
+        return vals
+
+    @api.model
+    def assign_values_from_sunat_ruc(self, data):
         vals = self.get_match_address(data)
         if data["nombre_o_razon_social"]:
             vals["name"] = data["nombre_o_razon_social"]
-        if data["estado_del_contribuyente"]:
-            vals["state"] = data["estado_del_contribuyente"]
+        if data["estado"]:
+            vals["state"] = data["estado"]
             if vals["state"] == "ACTIVO":
                 vals["state_color"] = COLOR_STATE["active"]
             else:
                 vals["state_color"] = COLOR_STATE["inactive"]
-        if data["condicion_de_domicilio"]:
-            vals["condition"] = data["condicion_de_domicilio"]
+        if data["condicion"]:
+            vals["condition"] = data["condicion"]
             if vals["condition"] == "HABIDO":
                 vals["condition_color"] = COLOR_CONDITION["active"]
             else:
@@ -79,7 +98,7 @@ class ResPartner(models.Model):
 
     @api.model
     def get_match_address(self, data):
-        l10n_pe_district = self.env["l10n_pe.res.city.district"].search([("code", "=", data["ubigeo"])], limit=1)
+        l10n_pe_district = self.env["l10n_pe.res.city.district"].search([("code", "=", data["ubigeo"][2])], limit=1)
         vals = {
             "country_id": False,
             "state_id": False,
@@ -92,28 +111,7 @@ class ResPartner(models.Model):
             vals["city_id"] = l10n_pe_district.city_id.id
             vals["state_id"] = l10n_pe_district.city_id.state_id.id
             vals["country_id"] = l10n_pe_district.city_id.state_id.country_id.id
-        full_street = ""
-        if data["tipo_de_via"]:
-            tipo_de_via = str(data["tipo_de_via"]).replace("-", "")
-            if len(tipo_de_via) > 0:
-                full_street = full_street + " " + data["tipo_de_via"]
-        if data["nombre_de_via"]:
-            nombre_de_via = str(data["nombre_de_via"]).replace("-", "")
-            if len(nombre_de_via) > 0:
-                full_street = full_street + " " + data["nombre_de_via"]
-        if data["codigo_de_zona"]:
-            codigo_de_zona = str(data["codigo_de_zona"]).replace("-", "")
-            if len(codigo_de_zona) > 0:
-                full_street = full_street + " " + data["codigo_de_zona"]
-        if data["tipo_de_zona"]:
-            tipo_de_zona = str(data["tipo_de_zona"]).replace("-", "")
-            if len(tipo_de_zona) > 0:
-                full_street = full_street + " " + data["tipo_de_zona"]
-        if data["numero"]:
-            numero = str(data["numero"]).replace("-", "")
-            if len(numero) > 0:
-                full_street = full_street + " " + data["numero"]
-        vals["street"] = full_street
+        vals["street"] = data["direccion"]
         return vals
 
     @api.onchange("country_id")
