@@ -57,7 +57,7 @@ class ResPartner(models.Model):
 
     @api.onchange("vat", "l10n_latam_identification_type_id")
     def _onchange_sunat_validation(self):
-        if self.l10n_latam_identification_type_id.id and self.vat:
+        if self.l10n_latam_identification_type_id.id and self.vat and self.country_id.code == "PE":
             if self.validation_sunat_contact():
                 data = self.get_sunat_information(self.l10n_latam_identification_type_id.l10n_pe_vat_code, self.vat)
                 if not data["success"]:
