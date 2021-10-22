@@ -16,7 +16,15 @@ COLOR_CONDITION = {
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    # commercial_name = fields.Char(string="Commercial Name")
+    def get_values_consultation(self):
+        get_param = self.env['ir.config_parameter'].sudo().get_param
+        _url = get_param("api.dev.ruc.dni.url", '')
+        _token = get_param("api.dev.ruc.dni.token", '')
+        if _url == '':
+            raise ValidationError(_("URL not found"))
+        if _token == '' or _token == 'paste your token':
+            raise ValidationError(_("Token not found"))
+        return _url, _token
 
     state = fields.Char(string="State")
 
@@ -28,12 +36,6 @@ class ResPartner(models.Model):
     condition_color = fields.Selection(
         selection=[("normal", "Not Consulted"), ("done", "Active"), ("blocked", "Inactive")],
         string="Condition Color", default="normal")
-
-    # date_enrollment = fields.Date(string="Enrollment Date")
-    #
-    # type_of_taxpayer = fields.Char(string="Type Of Taxpayer")
-    #
-    # economic_assets = fields.Text(string="Economic Assets")
 
     def validation_sunat_contact(self):
         if self.l10n_latam_identification_type_id.l10n_pe_vat_code == "6":
@@ -47,7 +49,7 @@ class ResPartner(models.Model):
         return False
 
     def get_sunat_information(self, type, vat):
-        url, token = self.env.company.get_values_consultation()
+        url, token = self.get_values_consultation()
         if type == "6":
             url = url + '/ruc/' + vat
         if type == "1":
