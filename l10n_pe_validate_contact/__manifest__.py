@@ -15,7 +15,7 @@
         "views/res_partner.xml",
     ],
     "images": [
-
+        'static/description/banner.gif'
     ],
     "author": "Pragmatic S.A.C",
     "website": "pragmatic.com.pe",
