@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0+e\n"
+"Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-07 16:44+0000\n"
-"PO-Revision-Date: 2021-10-07 16:44+0000\n"
+"POT-Creation-Date: 2021-10-23 00:01+0000\n"
+"PO-Revision-Date: 2021-10-23 00:01+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,20 +16,16 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_pe_validate_contact
-#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_company__pg_url
-msgid "API DEV URL"
-msgstr "API DEV URL"
-
-#. module: l10n_pe_validate_contact
 #: model:ir.model.fields.selection,name:l10n_pe_validate_contact.selection__res_partner__condition_color__done
 #: model:ir.model.fields.selection,name:l10n_pe_validate_contact.selection__res_partner__state_color__done
 msgid "Active"
 msgstr "Activo"
 
 #. module: l10n_pe_validate_contact
-#: model:ir.model,name:l10n_pe_validate_contact.model_res_company
-msgid "Companies"
-msgstr "Compañias"
+#: code:addons/l10n_pe_validate_contact/models/request_khatu.py:0
+#, python-format
+msgid "An error occurred, contact your administrator."
+msgstr "Se produjo un error, comuníquese con el administrador del sistema."
 
 #. module: l10n_pe_validate_contact
 #: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_partner__condition
@@ -49,13 +45,11 @@ msgid "Contact"
 msgstr "Contacto"
 
 #. module: l10n_pe_validate_contact
-#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_company__display_name
 #: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_partner__display_name
 msgid "Display Name"
-msgstr "Nombre a Mostrar"
+msgstr "Nombre mostrado"
 
 #. module: l10n_pe_validate_contact
-#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_company__id
 #: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_partner__id
 msgid "ID"
 msgstr ""
@@ -67,10 +61,9 @@ msgid "Inactive"
 msgstr "Inactivo"
 
 #. module: l10n_pe_validate_contact
-#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_company____last_update
 #: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_partner____last_update
 msgid "Last Modified on"
-msgstr "Ultima Modificación en"
+msgstr "Última modificación el"
 
 #. module: l10n_pe_validate_contact
 #: model:ir.model.fields.selection,name:l10n_pe_validate_contact.selection__res_partner__condition_color__normal
@@ -97,18 +90,13 @@ msgid "State Color"
 msgstr "Estado Color"
 
 #. module: l10n_pe_validate_contact
-#: model:ir.model.fields,field_description:l10n_pe_validate_contact.field_res_company__pg_password
-msgid "Token"
-msgstr "Token"
-
-#. module: l10n_pe_validate_contact
-#: code:addons/l10n_pe_validate_contact/models/res_company.py:0
+#: code:addons/l10n_pe_validate_contact/models/res_partner.py:0
 #, python-format
 msgid "Token not found"
-msgstr "Token no encontrado"
+msgstr "API Token no encontrado"
 
 #. module: l10n_pe_validate_contact
-#: code:addons/l10n_pe_validate_contact/models/res_company.py:0
+#: code:addons/l10n_pe_validate_contact/models/res_partner.py:0
 #, python-format
 msgid "URL not found"
-msgstr "URL no encontrado"
+msgstr "API URL no encontrado"

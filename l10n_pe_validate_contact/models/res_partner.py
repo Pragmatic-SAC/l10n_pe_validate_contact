@@ -63,7 +63,7 @@ class ResPartner(models.Model):
             if self.validation_sunat_contact():
                 data = self.get_sunat_information(self.l10n_latam_identification_type_id.l10n_pe_vat_code, self.vat)
                 if not data["success"]:
-                    raise ValidationError(data["error"])
+                    raise ValidationError(data["message"])
                 data = data["data"]
                 if self.l10n_latam_identification_type_id.l10n_pe_vat_code == "1":
                     vals = self.assign_values_from_sunat_dni(data)

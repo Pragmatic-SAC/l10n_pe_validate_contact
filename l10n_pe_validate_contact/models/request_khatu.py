@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import requests
-import base64
+from odoo import models, fields, api, _
 
 
 def _call_api(url, token):
@@ -11,8 +11,7 @@ def _call_api(url, token):
 
 def _parse_response(response):
     if response.status_code != 200:
-        res_json = response.json()
-        return {"success": False, "error": res_json["error_descrip"]}
+        return {"success": False, "message": _("An error occurred, contact your administrator.")}
     return response.json()
 
 

@@ -11,6 +11,7 @@
     ],
     "depends": ["l10n_pe"],
     "data": [
+        "data/ir_config_parameter.xml",
         "views/res_partner.xml",
     ],
     "images": [

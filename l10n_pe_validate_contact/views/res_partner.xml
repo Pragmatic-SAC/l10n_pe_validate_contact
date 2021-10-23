@@ -16,14 +16,8 @@
                         <field name="condition" style="pointer-events: none; cursor: default;"/>
                         <field name="condition_color" widget="state_selection" nolabel="1"
                                style="pointer-events: none; cursor: default;"/>
-                        <!--                        <field name="commercial_name"/>-->
-                        <!--                        <field name="date_enrollment"/>-->
-                        <!--                        <field name="type_of_taxpayer"/>-->
                     </group>
                 </group>
-                <!--                <group>
-                                    <field name="economic_assets"/>
-                                </group>-->
             </xpath>
         </field>
     </record>
