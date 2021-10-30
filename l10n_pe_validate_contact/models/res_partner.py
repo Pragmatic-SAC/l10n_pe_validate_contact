@@ -48,6 +48,7 @@ class ResPartner(models.Model):
             return True
         return False
 
+    @api.model
     def get_sunat_information(self, type, vat):
         url, token = self.get_values_consultation()
         if type == "6":
@@ -57,19 +58,31 @@ class ResPartner(models.Model):
         data = get_data_ruc(url, token)
         return data
 
+    @api.model
+    def information_get_values(self, l10n_pe_vat_code, vat, origin='contact'):
+        if origin != 'contact':
+            l10n_pe_vat_code = self.env['l10n_latam.identification.type'].browse(int(l10n_pe_vat_code)).l10n_pe_vat_code
+        data = self.get_sunat_information(l10n_pe_vat_code, vat)
+        if not data["success"]:
+            return data
+        data = data["data"]
+        if l10n_pe_vat_code == "1":
+            vals = self.assign_values_from_sunat_dni(data)
+        if l10n_pe_vat_code == "6":
+            vals = self.assign_values_from_sunat_ruc(data)
+        vals["success"] = True
+        return vals
+
     @api.onchange("vat", "l10n_latam_identification_type_id")
     def _onchange_sunat_validation(self):
         if self.l10n_latam_identification_type_id.id and self.vat and self.country_id.code == "PE":
             if self.validation_sunat_contact():
-                data = self.get_sunat_information(self.l10n_latam_identification_type_id.l10n_pe_vat_code, self.vat)
+                data = self.information_get_values(self.l10n_latam_identification_type_id.l10n_pe_vat_code, self.vat,
+                                                   'contact')
                 if not data["success"]:
-                    raise ValidationError(data["message"])
-                data = data["data"]
-                if self.l10n_latam_identification_type_id.l10n_pe_vat_code == "1":
-                    vals = self.assign_values_from_sunat_dni(data)
-                if self.l10n_latam_identification_type_id.l10n_pe_vat_code == "6":
-                    vals = self.assign_values_from_sunat_ruc(data)
-                self.update(vals)
+                    raise _(data["message"])
+                del data["success"]
+                self.update(data)
 
     @api.model
     def assign_values_from_sunat_dni(self, data):
@@ -112,6 +125,8 @@ class ResPartner(models.Model):
             vals["city_id"] = l10n_pe_district.city_id.id
             vals["state_id"] = l10n_pe_district.city_id.state_id.id
             vals["country_id"] = l10n_pe_district.city_id.state_id.country_id.id
+        if data["ubigeo"][2]:
+            vals["zip"] = data["ubigeo"][2]
         vals["street"] = data["direccion"]
         return vals
 
