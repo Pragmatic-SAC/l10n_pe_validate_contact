@@ -80,7 +80,7 @@ class ResPartner(models.Model):
                 data = self.information_get_values(self.l10n_latam_identification_type_id.l10n_pe_vat_code, self.vat,
                                                    'contact')
                 if not data["success"]:
-                    raise _(data["message"])
+                    raise ValidationError(data["message"])
                 del data["success"]
                 self.update(data)
 
