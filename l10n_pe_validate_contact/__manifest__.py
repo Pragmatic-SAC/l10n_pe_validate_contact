@@ -3,7 +3,7 @@
     "name": "Validar RUC/DNI - Perú",
     "category": "contacts",
     "summary": "Valida la informacion de personas y empresas.",
-    "version": "14.0.2",
+    "version": "13.0.2",
     "license": "OPL-1",
     "website": "https://www.pragmatic.com.pe/",
     "contributors": [
