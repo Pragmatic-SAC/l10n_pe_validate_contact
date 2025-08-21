@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <record id="helpdesk_ticket_form_show_task_prg" model="ir.ui.view">
+      <field name="name">helpdesk.ticket.form.show.task</field>
+      <field name="model">helpdesk.ticket</field>
+      <!-- REEMPLAZA por el XMLID real de la vista donde está tu estructura -->
+      <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"/>
+      <field name="arch" type="xml">
+
+        <!-- En tu estructura esos campos se insertan después de email_cc pero invisibles -->
+        <xpath expr="//field[@name='partner_email']" position="after">
+          <!-- Forzamos visible y dominio/contexto útiles -->
+          <field name="project_id" invisible="0"/>
+          <field name="task_id"
+                 invisible="0"
+                 required="1"/>
+        </xpath>
+
+      </field>
+    </record>
+  </data>
+</odoo>
