@@ -47,14 +47,6 @@ def _timesheets_will_exist_after(rec, vals):
 class HelpdeskTicket(models.Model):
     _inherit = "helpdesk.ticket"
 
-    task_id = fields.Many2one(required=True)
-
-    @api.constrains('task_id')
-    def _check_task_required(self):
-        for rec in self:
-            if not rec.task_id:
-                raise ValidationError(_("El campo 'Tarea' es obligatorio en el ticket."))
-
     def write(self, vals):
         for rec in self:
             # proyecto final (si cambia en vals usar ese)
@@ -65,7 +57,7 @@ class HelpdeskTicket(models.Model):
             if _is_preventa(project) and _timesheets_will_exist_after(rec, vals):
                 # Bloquear guardado con alerta
                 raise UserError(
-                    _("No se puede guardar: el proyecto es 'Preventa' y el ticket tiene horas registradas. "
+                    _("El proyecto es 'Preventa' y el ticket tiene horas registradas. "
                       "Establezca un proyecto distinto a 'Preventa' antes de guardar.")
                 )
         return super().write(vals)

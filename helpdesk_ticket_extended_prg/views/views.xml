@@ -10,7 +10,7 @@
       <field name="arch" type="xml">
 
         <!-- En tu estructura esos campos se insertan después de email_cc pero invisibles -->
-        <xpath expr="//field[@name='partner_email']" position="after">
+        <xpath expr="//field[@name='email_cc']" position="after">
           <!-- Forzamos visible y dominio/contexto útiles -->
           <field name="project_id" invisible="0"/>
           <field name="task_id"
