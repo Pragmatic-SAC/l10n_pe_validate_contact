@@ -125,6 +125,7 @@ class AccountMove(models.Model):
 
     # === GUARDAR: aplicar definitivamente + nota en chatter (no bloquea) ===
     def _apply_code_and_notify_on_save(self):
+        return
         decisions = self._decision_for_move()
         for move in self:
             d = decisions.get(move.id, {})
