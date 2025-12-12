@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_excel_rule_config" model="ir.actions.act_window">
+            <field name="name">Configuraciones Excel</field>
+            <field name="res_model">excel.rule.config</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_excel_rule_automation_root"
+                  name="Automatización Excel"
+                  sequence="10"
+                  web_icon="excel_task_notifier_gmail,static/description/icon.png"/>
+
+        <menuitem id="menu_excel_rule_config"
+                  name="Configuraciones"
+                  parent="menu_excel_rule_automation_root"
+                  action="action_excel_rule_config"
+                  sequence="10"/>
+
+        <record id="view_excel_rule_config_tree" model="ir.ui.view">
+            <field name="name">excel.rule.config.tree</field>
+            <field name="model">excel.rule.config</field>
+            <field name="arch" type="xml">
+                <tree string="Configuraciones de Excel">
+                    <field name="name"/>
+                    <field name="drive_url"/>
+                    <field name="group_by_header_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_excel_rule_config_form" model="ir.ui.view">
+            <field name="name">excel.rule.config.form</field>
+            <field name="model">excel.rule.config</field>
+            <field name="arch" type="xml">
+                <form string="Configuración de Excel">
+                    <header>
+                        <button name="action_read_headers"
+                                type="object"
+                                string="Leer encabezados"
+                                class="btn-primary"/>
+                        <button name="action_execute_rules_send_emails"
+                                type="object"
+                                string="Ejecutar reglas y enviar correos"
+                                class="btn-secondary"/>
+                    </header>
+
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="drive_url"/>
+                            </group>
+                            <group>
+                                <field name="group_by_header_id"
+                                       domain="[('config_id', '=', id), ('can_be_group_by', '=', True)]"/>
+                                <field name="email_subject"/>
+                                <field name="email_body_intro" widget="text"/>
+                                <field name="line_template" widget="text"/>
+                                <field name="email_body_outro" widget="text"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Encabezados">
+                                <field name="header_ids">
+                                    <tree editable="bottom">
+                                        <field name="sequence"/>
+                                        <field name="name"/>
+                                        <field name="can_be_group_by"/>
+                                        <field name="can_be_filter"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Reglas">
+                                <field name="rule_ids">
+                                    <tree editable="bottom">
+                                        <field name="config_id" invisible="1"/>
+                                        <field name="name"/>
+                                        <field name="code"/>
+                                        <field name="dependency_ids"/>
+                                        <field name="dependency_logic"/>
+                                        <field name="header_id"
+                                               domain="[('config_id', '=', parent.id), ('can_be_filter', '=', True)]"/>
+                                        <field name="operator"/>
+                                        <field name="value"/>
+                                        <field name="group_by_header_id"/>
+                                        <field name="active"/>
+                                        <field name="send_email"/>
+                                    </tree>
+                                    <form string="Regla">
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="code"/>
+                                            <field name="dependency_ids"/>
+                                            <field name="dependency_logic"/>
+                                            <field name="config_id" invisible="1"/>
+                                            <field name="header_id"
+                                                   domain="[('config_id', '=', parent.id), ('can_be_filter', '=', True)]"/>
+                                            <field name="operator"/>
+                                            <field name="value"/>
+                                            <field name="group_by_header_id"/>
+                                            <field name="active"/>
+                                            <field name="send_email"/>
+                                        </group>
+                                    </form>
+                                </field>
+
+                                <separator string="Leyenda de la 'Expresión lógica'"/>
+
+                                <p class="fa fa-info-circle alert alert-info alert-dismissible rounded-0 fade show d-print-none css_editable_mode_hidden"
+                                   style="font-size: 15px; letter-spacing: 1px;">
+                                    • Usa el campo 'Código' de cada regla en la 'Expresión lógica' (ej: 1, 2, 3...).<br/>
+                                    • 'y' : todas las reglas indicadas deben cumplirse. Ej: 1y2 → la fila cumple la regla 1 y la 2.<br/>
+                                    • 'o' : basta que se cumpla una. Ej: 1o2 → la fila cumple la regla 1 o la 2.<br/>
+                                    • Usa paréntesis para agrupar: (1o2)y3 → la fila cumple la regla 1 o la 2, y además la 3.<br/>
+                                    • Si dejas la 'Expresión lógica' vacía, la regla se evalúa solo con su propia condición.
+                                </p>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>
